@@ -25,6 +25,7 @@ test:		all
 clean:
 			@/bin/rm -f $(OBJ)
 			@/bin/rm -rf $(D_OBJ)
+			@/bin/rm -f a.out
 
 fclean:		clean
 			@/bin/rm -f $(NAME)
