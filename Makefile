@@ -1,30 +1,24 @@
 NAME = libasm.a
 
-D_SRC = src
-D_OBJ = obj
+SRC = ft_read.s ft_strlen.s ft_strcmp.s
+OBJ = $(SRC:.s=.o)
 
-CODE = ft_read.s
-
-OBJ = $(patsubst %.s, ${D_OBJ}/%.o, ${CODE})
-
-ASM_COMP = -f elf64
+A_FLAG = -f elf64
 
 all: $(NAME)
 
-$(D_OBJ)/%.o : $(D_SRC)/%.s
-			@mkdir -p $(D_OBJ)
-			@nasm $(ASM_COMP) $< -o $@
-
 $(NAME):	$(OBJ)
-			@ar -rcs $(NAME) $(OBJ)
+			@ar -rc $(NAME) $(OBJ)
+
+%.o: 		%.s
+			@nasm $(A_FLAG) $<
 
 test:		all
-			@gcc -g main.c ./obj/*.o
+			@gcc -g main.c *.o
 			@./a.out
 
 clean:
 			@/bin/rm -f $(OBJ)
-			@/bin/rm -rf $(D_OBJ)
 			@/bin/rm -f a.out
 
 fclean:		clean
