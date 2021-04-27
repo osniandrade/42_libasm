@@ -1,6 +1,6 @@
 NAME = libasm.a
 
-SRC = ft_read.s ft_strlen.s ft_strcmp.s ft_strcpy.s
+SRC = ft_read.s ft_strlen.s ft_strcmp.s ft_strcpy.s ft_strdup.s
 OBJ = $(SRC:.s=.o)
 
 A_FLAG = -f elf64

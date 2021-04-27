@@ -90,6 +90,21 @@ void	ft_ck_strcpy(char *src)
 		printf("	[NOT OK AT ALL]\n");
 }
 
+void	ft_ck_strdup(char *src)
+{
+	char	*dst1;
+	char	*dst2;
+
+	dst1 = strdup(src);
+	dst2 = ft_strdup(src);
+	if (!strcmp(dst1, dst2))
+		printf("	[OK]\n");
+	else
+		printf("	[NOT OK AT ALL]\n");
+	//free(dst1);
+	//free(dst2);
+}
+
 int     main(int argc, char *argv[])
 {
 	printf("ft_read:\n");
@@ -121,5 +136,12 @@ int     main(int argc, char *argv[])
 	ft_ck_strcpy("01189997253");
 	ft_ck_strcpy("adasblestaslbiustous");
 	//ft_ck_strcpy(NULL);
+	printf("\n");
+
+	printf("ft_strdup:\n");
+	ft_ck_strdup("");
+	ft_ck_strdup("teste");
+	ft_ck_strdup("123456789");
+	ft_ck_strdup("superbolinhovamotestarotamanho");
 	printf("\n");
 }
