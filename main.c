@@ -1,131 +1,125 @@
 #include "libasm.h"
 
-void	ft_ck_read()
+void	ft_ck_read(char *file, int chars, int flag)
 {
 	int		fd;
-	char	buff[100];
-	char	show[100];
-	ssize_t	ret;
+	char	buff1[100];
+	char	buff2[100];
+	ssize_t	ret1, ret2;
 
-	printf("ft_read:\n");
-	printf("	1   'open(\"test.txt\", O_RDONLY)' -> 10 chars\n");
-	fd = open("test.txt", O_RDONLY);
-	ret = read(fd, buff, 10);
-	printf("		<unistd.h>  %zd - %s\n", ret, strncpy(show, buff, 10));
+	if (flag == 1)
+	{
+		fd = open(file, O_RDONLY);
+		ret1 = read(fd, buff1, chars);
+		close(fd);
+		fd = open(file, O_RDONLY);
+		ret2 = ft_read(fd, buff2, chars);
+	}
+	if (flag == 2)
+	{
+		fd = open(file, O_RDONLY);
+		ret1 = read(fd, NULL, chars);
+		close(fd);
+		fd = open(file, O_RDONLY);
+		ret2 = ft_read(fd, NULL, chars);
+	}
+	if (flag == 3)
+	{
+		fd = 42;
+		ret1 = read(fd, buff1, chars);
+		close(fd);
+		fd = 42;
+		ret2 = ft_read(fd, buff2, chars);
+	}
+	if (flag == 4)
+	{
+		fd = open("empty", O_RDONLY | O_TRUNC | O_CREAT, 0777);
+		ret1 = read(fd, buff1, chars);
+		close(fd);
+		fd = open("empty", O_RDONLY | O_TRUNC | O_CREAT, 0777);
+		ret2 = ft_read(fd, buff2, chars);
+	}
 	close(fd);
-	fd = open("test.txt", O_RDONLY);
-	ret = ft_read(fd, buff, 10);
-	printf("		<libasm.h>  %zd - %s\n", ret, strncpy(show, buff, 10));
-	close(fd);
+	if (flag == 4)
+		remove("empty");
 
-	printf("	2   'open(\"test.txt\", O_RDONLY)' -> 50 chars\n");
-	fd = open("test.txt", O_RDONLY);
-	ret = read(fd, buff, 50);
-	printf("		<unistd.h>  %zd - %s\n", ret, strncpy(show, buff, 50));
-	close(fd);
-	fd = open("test.txt", O_RDONLY);
-	ret = ft_read(fd, buff, 50);
-	printf("		<libasm.h>  %zd - %s\n", ret, strncpy(show, buff, 50));
-	close(fd);
-
-	printf("	3   'open(\"missingfile\", O_RDONLY)' -> 10 chars\n");
-	fd = open("missingfile", O_RDONLY);
-	ret = read(fd, buff, 10);
-	printf("		<unistd.h>  %zd - %s\n", ret, strncpy(show, buff, 10));
-	close(fd);
-	fd = open("missingfile", O_RDONLY);
-	ret = ft_read(fd, buff, 10);
-	printf("		<libasm.h>  %zd - %s\n", ret, strncpy(show, buff, 10));
-	close(fd);
-
-	printf("	4   'open(\"test.txt\", O_RDONLY)' -> null buffer, 10 chars\n");
-	fd = open("test.txt", O_RDONLY);
-	ret = read(fd, NULL, 10);
-	printf("		<unistd.h>  %zd\n", ret);
-	close(fd);
-	fd = open("test.txt", O_RDONLY);
-	ret = ft_read(fd, NULL, 10);
-	printf("		<libasm.h>  %zd\n", ret);
-	close(fd);
-
-	printf("	5   'inexistent fd'\n");
-	ret = read(42, buff, 10);
-	printf("		<unistd.h>  %zd - %s\n", ret, strncpy(show, buff, 10));
-	ret = ft_read(42, buff, 10);
-	printf("		<libasm.h>  %zd - %s\n", ret, strncpy(show, buff, 10));
-	close(fd);
-
-	fd = open("empty", O_RDONLY | O_TRUNC | O_CREAT, 0777);
-	printf("	6   'open(\"empty\", O_RDONLY | O_TRUNC | O_CREAT, 0777)' -> 10 chars\n");
-	ret = read(fd, buff, 10);
-	printf("		<unistd.h>  %zd - %s\n", ret, strncpy(show, buff, 10));
-	ret = ft_read(fd, buff, 10);
-	printf("		<libasm.h>  %zd - %s\n", ret, strncpy(show, buff, 10));
-	close(fd);
-	remove("empty");
-
-	printf("\n\n");
+	if (ret1 == ret2 && strncmp(buff1, buff2, chars) == 0)
+		printf("	[OK]\n");
+	else
+		printf("	[NOT OK AT ALL]\n");
 }
 
-void	ft_ck_strlen()
+void	ft_ck_strlen(char *src)
 {
-	// char *p;
+	int		a;
+	int		b;
 
-	// p = NULL;
-	printf("ft_strlen:\n");
-
-	printf("        1   ''\n");
-	printf("            <string.h> %lu\n", strlen(""));
-	printf("            <libasm.h> %lu\n", ft_strlen(""));
-
-	printf("        2   '        '\n");
-	printf("            <string.h> %lu\n", strlen("        "));
-	printf("            <libasm.h> %lu\n", ft_strlen("        "));
-
-	printf("        3   '35184353321'\n");
-	printf("            <string.h> %lu\n", strlen("35184353321"));
-	printf("            <libasm.h> %lu\n", ft_strlen("35184353321"));
-
-	//printf("        4   NULL\n");
-	//printf("            <string.h> %lu\n", strlen(p));
-	//printf("            <libasm.h> %d\n", ft_strlen(p));
-	printf("\n\n");
+	a = strlen(src);
+	b = ft_strlen(src);
+	if (a == b)
+		printf("	[OK]\n");
+	else
+		printf("	[NOT OK AT ALL]\n");
 }
 
-void	ft_ck_strcmp()
+void	ft_ck_strcmp(char *src1, char *src2)
 {
-	printf("ft_strcmp:\n");
+	int		a;
+	int		b;
 
-	printf("		1	'' <-> ''\n");
-	printf("			<string.h> %d\n", strcmp("", ""));
-	printf("			<libasm.h> %d\n", ft_strcmp("", ""));
+	a = strcmp(src1, src2);
+	b = ft_strcmp(src1, src2);
+	if (a == b)
+		printf("	[OK]\n");
+	else
+		printf("	[NOT OK AT ALL]\n");
+}
 
-	printf("		2	'deepthought' <-> 'deepthought'\n");
-	printf("			<string.h> %d\n", strcmp("deepthought", "deepthought"));
-	printf("			<libasm.h> %d\n", ft_strcmp("deepthought", "deepthought"));
+void	ft_ck_strcpy(char *src)
+{
+	char	dst1[100];
+	char	dst2[100];
 
-	printf("		3	'' <-> 'deepthought'\n");
-	printf("			<string.h> %d\n", strcmp("", "deepthought"));
-	printf("			<libasm.h> %d\n", ft_strcmp("", "deepthought"));
-
-	printf("		4	'deepthought' <-> ''\n");
-	printf("			<string.h> %d\n", strcmp("deepthought", ""));
-	printf("			<libasm.h> %d\n", ft_strcmp("deepthought", ""));
-
-	printf("		5	'deepthought' <-> 'deepthink'\n");
-	printf("			<string.h> %d\n", strcmp("deepthought", "deepthink"));
-	printf("			<libasm.h> %d\n", ft_strcmp("deepthought", "deepthink"));
-
-	//printf("		6	'42' <-> NULL\n");
-	//printf("			<string.h> %d\n", strcmp("42", NULL));
-	//printf("			<libasm.h> %d\n", ft_strcmp("42", NULL));
-
-	printf("\n\n");
+	bzero(dst1, 100);
+	bzero(dst2, 100);
+	strcpy(dst1, src);
+	ft_strcpy(dst2, src);
+	if (!strcmp(dst1, dst2))
+		printf("	[OK]\n");
+	else
+		printf("	[NOT OK AT ALL]\n");
 }
 
 int     main(int argc, char *argv[])
 {
-	//ft_ck_read();
-	//ft_ck_strlen();
-	ft_ck_strcmp();
+	printf("ft_read:\n");
+	ft_ck_read("test.txt", 10, 1);
+	ft_ck_read("test.txt", 50, 1);
+	ft_ck_read("missingfile", 10, 1);
+	ft_ck_read("test.txt", 10, 2);
+	ft_ck_read("invalid_fd", 10, 3);
+	ft_ck_read("empty", 10, 4);
+	printf("\n");
+
+	printf("ft_strlen:\n");
+	ft_ck_strlen("");
+	ft_ck_strlen("heart of gold");
+	ft_ck_strlen("01189998819991197253");
+	//ft_ck_strlen(NULL);
+	printf("\n");
+
+	printf("ft_strcmp:\n");
+	ft_ck_strcmp("","");
+	ft_ck_strcmp("stringcompare","stringcompare");
+	ft_ck_strcmp("stringcompare","");
+	ft_ck_strcmp("","stringcompare");
+	ft_ck_strcmp("123456","123456");
+	printf("\n");
+	
+	printf("ft_strcpy:\n");
+	ft_ck_strcpy("");
+	ft_ck_strcpy("01189997253");
+	ft_ck_strcpy("adasblestaslbiustous");
+	//ft_ck_strcpy(NULL);
+	printf("\n");
 }
