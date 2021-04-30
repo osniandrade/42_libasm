@@ -2,21 +2,22 @@ section     .text
     global  ft_strcmp
 
 ft_strcmp:
-    mov     rcx, 0
+    push    r8
+    mov     r8, -1
 
 _while:
-    mov     r8b, byte [rdi + rcx]
-    mov     r9b, byte [rsi + rcx]
-    inc     rcx
-    cmp     r8b, r9b
-    jne     _finish
-    cmp     r8b, 0
+    inc     r8
+    mov     al, byte [rdi + r8]
+    mov     bl, byte [rsi + r8]
+    cmp     al, 0
     je      _finish
-    cmp     r9b, 0
+    cmp     bl, 0
     je      _finish
-    jmp     _while
+    cmp     al, bl
+    je      _while
+    jmp     _finish
 
 _finish:
-    sub     r8b, r9b
-    movsx   rax, r8b
+    pop     r8
+    sub     rax, rbx
     ret

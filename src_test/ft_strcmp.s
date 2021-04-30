@@ -1,6 +1,6 @@
 section .data
-    text1 db "Hello boy",10,0
-    text2 db "Hello boy",10,0
+    text1 db "\xff\xff",10,0
+    text2 db "\xff",10,0
 
 section .text
     global _start
@@ -15,21 +15,21 @@ _start:
     syscall
 
 _ft_strcmp:
-    push    r8
-    mov     r8, -1
+    mov     rcx, 0
 
 _while:
-    inc     r8
-    mov     al, byte [rdi + r8]
-    mov     bl, byte [rsi + r8]
-    cmp     al, 0
+    mov     r8b, byte [rdi + rcx]
+    mov     r9b, byte [rsi + rcx]
+    inc     rcx
+    cmp     r8b, 0
     je      _finish
-    cmp     bl, 0
+    cmp     r9b, 0
     je      _finish
-    cmp     al, bl
-    je      _while
+    cmp     r8b, r9b
+    jne     _finish
+    jmp     _while
 
 _finish:
-    pop     r8
-    sub     rax, rbx
+    sub     r8b, r9b
+    movsx   rax, r8b
     ret

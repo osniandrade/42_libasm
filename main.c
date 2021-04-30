@@ -69,6 +69,8 @@ void	ft_ck_strcmp(char *src1, char *src2)
 
 	a = strcmp(src1, src2);
 	b = ft_strcmp(src1, src2);
+	printf("%d\n", a);
+	printf("%d\n", b);
 	if (a == b)
 		printf("	[OK]\n");
 	else
@@ -103,6 +105,20 @@ void	ft_ck_strdup(char *src)
 		printf("	[NOT OK AT ALL]\n");
 	//free(dst1);
 	//free(dst2);
+}
+
+void	ft_ck_write(char *src, int c)
+{
+	size_t	ret1, ret2;
+
+	ret1 = ft_write(STDOUT_FILENO, src, c);
+	printf("\n");
+	ret2 = write(STDOUT_FILENO, src, c);
+	printf("\n");
+	if (ret1 == ret2)
+		printf("	[OK]\n");
+	else
+		printf("	[NOT OK AT ALL]\n");
 }
 
 int     main(int argc, char *argv[])
@@ -143,5 +159,13 @@ int     main(int argc, char *argv[])
 	ft_ck_strdup("teste");
 	ft_ck_strdup("123456789");
 	ft_ck_strdup("superbolinhovamotestarotamanho");
+	printf("\n");
+
+	printf("ft_write:\n");
+	ft_ck_write("teste", 5);
+	ft_ck_write("super bolinho", 10);
+	ft_ck_write("super bolinho", 20);
+	ft_ck_write("", 10);
+	ft_ck_write("", 0);
 	printf("\n");
 }
