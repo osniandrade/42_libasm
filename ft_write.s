@@ -2,7 +2,7 @@ section     .text
     global  ft_write
     extern  error
 
-ft_write
+ft_write:
     mov     rax, 0x1
     syscall
     push    rax
