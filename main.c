@@ -64,14 +64,13 @@ void	ft_ck_strlen(char *src)
 
 void	ft_ck_strcmp(char *src1, char *src2)
 {
-	int		a;
-	int		b;
+	int		ret1, ret2;
 
-	a = strcmp(src1, src2);
-	b = ft_strcmp(src1, src2);
-	printf("%d\n", a);
-	printf("%d\n", b);
-	if (a == b)
+	ret1 = strcmp(src1, src2);
+	ret2 = ft_strcmp(src1, src2);
+	// printf("%d\n", ret1);
+	// printf("%d\n", ret2);
+	if (((ret1 > 0 && ret2 > 0) || (ret1 < 0 && ret2 < 0) || (ret1 == 0 && ret2 == 0)))
 		printf("	[OK]\n");
 	else
 		printf("	[NOT OK AT ALL]\n");
@@ -121,7 +120,7 @@ void	ft_ck_write(char *src, int c)
 		printf("	[NOT OK AT ALL]\n");
 }
 
-int     main(int argc, char *argv[])
+void	ft_testread()
 {
 	printf("ft_read:\n");
 	ft_ck_read("test.txt", 10, 1);
@@ -131,14 +130,19 @@ int     main(int argc, char *argv[])
 	ft_ck_read("invalid_fd", 10, 3);
 	ft_ck_read("empty", 10, 4);
 	printf("\n");
+}
 
+void	ft_teststrlen()
+{
 	printf("ft_strlen:\n");
 	ft_ck_strlen("");
 	ft_ck_strlen("heart of gold");
 	ft_ck_strlen("01189998819991197253");
-	//ft_ck_strlen(NULL);
 	printf("\n");
+}
 
+void	ft_teststrcmp()
+{
 	printf("ft_strcmp:\n");
 	ft_ck_strcmp("","");
 	ft_ck_strcmp("stringcompare","stringcompare");
@@ -146,26 +150,44 @@ int     main(int argc, char *argv[])
 	ft_ck_strcmp("","stringcompare");
 	ft_ck_strcmp("123456","123456");
 	printf("\n");
-	
+}
+
+void	ft_teststrcpy()
+{
 	printf("ft_strcpy:\n");
 	ft_ck_strcpy("");
 	ft_ck_strcpy("01189997253");
 	ft_ck_strcpy("adasblestaslbiustous");
-	//ft_ck_strcpy(NULL);
 	printf("\n");
+}
 
+void	ft_teststrdup()
+{
 	printf("ft_strdup:\n");
 	ft_ck_strdup("");
 	ft_ck_strdup("teste");
 	ft_ck_strdup("123456789");
 	ft_ck_strdup("superbolinhovamotestarotamanho");
 	printf("\n");
+}
 
+void	ft_testwrite()
+{
 	printf("ft_write:\n");
-	ft_ck_write("teste", 5);
-	ft_ck_write("super bolinho", 10);
-	ft_ck_write("super bolinho", 20);
+	ft_ck_write("		teste", 5);
+	ft_ck_write("		super bolinho", 10);
+	ft_ck_write("		super bolinho", 20);
 	ft_ck_write("", 10);
 	ft_ck_write("", 0);
 	printf("\n");
+}
+
+int     main(int argc, char *argv[])
+{
+	ft_testread();
+	ft_teststrlen();
+	ft_teststrcmp();
+	ft_teststrcpy();
+	ft_teststrdup();
+	ft_testwrite();
 }
