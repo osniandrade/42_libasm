@@ -203,4 +203,5 @@ int     main(int argc, char *argv[])
 	ft_teststrcpy();
 	ft_teststrdup();
 	ft_testwrite();
+	return (0);
 }
