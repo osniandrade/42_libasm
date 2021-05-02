@@ -1,8 +1,0 @@
-version: '3.4'
-
-services:
-  42libasm:
-    image: 42libasm
-    build:
-      context: .
-      dockerfile: ./Dockerfile
