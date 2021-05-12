@@ -15,7 +15,7 @@ section     .text
 
 ft_strcmp:
     xor     rax, rax
-    xor     rbx, rbx
+    xor     rdx, rdx
     mov     r8, -1
 
 _while:
