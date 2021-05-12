@@ -24,7 +24,7 @@ $(NAME):	$(OBJ)
 			@nasm $(A_FLAG) $<
 
 test:		all
-			@gcc -g main.c *.o
+			@clang -g main.c *.o
 			@./a.out
 
 clean:
