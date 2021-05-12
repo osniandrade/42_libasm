@@ -48,10 +48,25 @@ void	ft_test_strcpy(char *s1, char *empty_s, char *long_s)
 
 void	ft_test_strdup(char *s1, char *empty_s, char *long_s)
 {
+	char *d1;
+	char *d2;
+
 	printf("**********FT_STRDUP*********\n\n");
-	printf("strdup: %s\nlibasm: %s\n\n", strdup(s1), ft_strdup(s1));
-	printf("strdup: %s\nlibasm: %s\n\n", strdup(empty_s), ft_strdup(empty_s));
-	printf("strdup: %s\nlibasm: %s\n\n", strdup(long_s), ft_strdup(long_s));
+	d1 = strdup(s1);
+	d2 = ft_strdup(s1);
+	printf("strdup: %s\nlibasm: %s\n\n", d1, d2);
+	free(d1);
+	free(d2);
+	d1 = strdup(empty_s);
+	d2 = ft_strdup(empty_s);
+	printf("strdup: %s\nlibasm: %s\n\n", d1, d2);
+	free(d1);
+	free(d2);
+	d1 = strdup(long_s);
+	d2 = ft_strdup(long_s);
+	printf("strdup: %s\nlibasm: %s\n\n", d1, d2);
+	free(d1);
+	free(d2);
 }
 
 void	ft_test_write(char *s2)
@@ -94,11 +109,11 @@ int		main(void)
 	empty_s = "";
 	long_s = ";;'Aperture Science';; we do what we must because we can";
 
-	ft_test_strlen(s1, empty_s, long_s);
-	ft_test_strcmp(s1, s2, empty_s, long_s);
-	ft_test_strcpy(s1, empty_s, long_s);
+	//ft_test_strlen(s1, empty_s, long_s);
+	//ft_test_strcmp(s1, s2, empty_s, long_s);
+	//ft_test_strcpy(s1, empty_s, long_s);
 	ft_test_strdup(s1, empty_s, long_s);
-	ft_test_write(s2);
-	ft_test_read();
+	//ft_test_write(s2);
+	//ft_test_read();
 	return (0);
 }

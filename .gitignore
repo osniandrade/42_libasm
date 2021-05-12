@@ -1,0 +1,8 @@
+a.out
+ft_read.o
+ft_strcmp.o
+ft_strcpy.o
+ft_strdup.o
+ft_strlen.o
+ft_write.o
+libasm.a
