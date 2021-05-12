@@ -10,198 +10,95 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "libasm.h"
 
-void	ft_ck_read(char *file, int chars, int flag)
+void	ft_test_strlen(char *s1, char *empty_s, char *long_s)
 {
+	printf("**********FT_STRLEN*********\n\n");
+	printf("strlen: %lu\nlibasm: %lu\n\n", strlen(s1), ft_strlen(s1));
+	printf("strlen: %lu\nlibasm: %lu\n\n", strlen(empty_s), ft_strlen(empty_s));
+	printf("strlen: %lu\nlibasm: %lu\n\n", strlen(long_s), ft_strlen(long_s));
+}
+
+void	ft_test_strcmp(char *s1, char *s2, char *empty_s, char *long_s)
+{
+	printf("**********FT_STRCMP*********\n\n");
+	printf("strcmp: %i\nlibasm: %i\n\n", strcmp(s1, s2), ft_strcmp(s1, s2));
+	printf("strcmp: %i\nlibasm: %i\n\n", strcmp(empty_s, s1), ft_strcmp(empty_s, s1));
+	printf("strcmp: %i\nlibasm: %i\n\n", strcmp(long_s, s2), ft_strcmp(long_s, s2));
+	printf("strcmp: %i\nlibasm: %i\n\n", strcmp(s2, s2), ft_strcmp(s2, s2));
+}
+
+void	ft_test_strcpy(char *s1, char *empty_s, char *long_s)
+{
+	char d1[50];
+	char d2[50];
+
+	printf("**********FT_STRCPY*********\n\n");
+	strcpy(d1, s1); 
+	ft_strcpy(d2, s1);
+	printf("strcpy: %s\nlibasm: %s\n\n", d1, d2);
+	strcpy(d1, empty_s); 
+	ft_strcpy(d2, empty_s);
+	printf("strcpy: %s\nlibasm: %s\n\n", d1, d2);
+	strcpy(d1, long_s); 
+	ft_strcpy(d2, long_s);
+	printf("strcpy: %s\nlibasm: %s\n\n", d1, d2);
+}
+
+void	ft_test_strdup(char *s1, char *empty_s, char *long_s)
+{
+	printf("**********FT_STRDUP*********\n\n");
+	printf("strdup: %s\nlibasm: %s\n\n", strdup(s1), ft_strdup(s1));
+	printf("strdup: %s\nlibasm: %s\n\n", strdup(empty_s), ft_strdup(empty_s));
+	printf("strdup: %s\nlibasm: %s\n\n", strdup(long_s), ft_strdup(long_s));
+}
+
+void	ft_test_write(char *s2)
+{
+	printf("**********FT_WRITE**********\n\n");
+	printf("write:  %zi\n", write(1, s2, 9));
+	printf("libasm: %zi\n\n", ft_write(1, s2, 9));
+	write(42, s2, 14);
+	printf("write:  %zi, error %s\n", write(42, s2, 14), strerror(errno));
+	printf("libasm: %zi, error %s\n\n", ft_write(42, s2, 14), strerror(errno));
+}
+
+void	ft_test_read()
+{
+	char	*buf1;
+	char	*buf2;
 	int		fd;
-	char	buff1[100];
-	char	buff2[100];
-	ssize_t	ret1, ret2;
 
-	if (flag == 1)
-	{
-		fd = open(file, O_RDONLY);
-		ret1 = read(fd, buff1, chars);
-		close(fd);
-		fd = open(file, O_RDONLY);
-		ret2 = ft_read(fd, buff2, chars);
-	}
-	if (flag == 2)
-	{
-		fd = open(file, O_RDONLY);
-		ret1 = read(fd, NULL, chars);
-		close(fd);
-		fd = open(file, O_RDONLY);
-		ret2 = ft_read(fd, NULL, chars);
-	}
-	if (flag == 3)
-	{
-		fd = 42;
-		ret1 = read(fd, buff1, chars);
-		close(fd);
-		fd = 42;
-		ret2 = ft_read(fd, buff2, chars);
-	}
-	if (flag == 4)
-	{
-		fd = open("empty", O_RDONLY | O_TRUNC | O_CREAT, 0777);
-		ret1 = read(fd, buff1, chars);
-		close(fd);
-		fd = open("empty", O_RDONLY | O_TRUNC | O_CREAT, 0777);
-		ret2 = ft_read(fd, buff2, chars);
-	}
-	close(fd);
-	if (flag == 4)
-		remove("empty");
-
-	if (ret1 == ret2 && strncmp(buff1, buff2, chars) == 0)
-		printf("	[OK]\n");
-	else
-		printf("	[NOT OK AT ALL]\n");
+	buf1 = calloc(500, sizeof(char));
+	buf2 = calloc(500, sizeof(char));
+	printf("***********FT_READ**********\n\n");
+	fd = open("test", O_RDONLY);
+	printf("read:   %zi, %s\n", read(fd, buf1, 5), buf1);
+	fd = open("test", O_RDONLY);
+	printf("libasm: %zi, %s\n\n", ft_read(fd, buf2, 5), buf2);
+	read(-7, buf1, 7);
+	printf("read:   %zi, error: %s\n", read(-7, buf1, 7), strerror(errno));
+	printf("libasm: %zi, error: %s\n\n", ft_read(-7, buf1, 7), strerror(errno));
 }
 
-void	ft_ck_strlen(char *src)
+int		main(void)
 {
-	int		a;
-	int		b;
+	char	*s1;
+	char	*s2;
+	char	*empty_s;
+	char	*long_s;
 
-	a = strlen(src);
-	b = ft_strlen(src);
-	if (a == b)
-		printf("	[OK]\n");
-	else
-		printf("	[NOT OK AT ALL]\n");
-}
+	s1 = "The cake is a lie";
+	s2 = "Companion Cube";
+	empty_s = "";
+	long_s = ";;'Aperture Science';; we do what we must because we can";
 
-void	ft_ck_strcmp(char *src1, char *src2)
-{
-	int		ret1, ret2;
-
-	ret1 = strcmp(src1, src2);
-	ret2 = ft_strcmp(src1, src2);
-	// printf("%d\n", ret1);
-	// printf("%d\n", ret2);
-	if (((ret1 > 0 && ret2 > 0) || (ret1 < 0 && ret2 < 0) || (ret1 == 0 && ret2 == 0)))
-		printf("	[OK]\n");
-	else
-		printf("	[NOT OK AT ALL]\n");
-}
-
-void	ft_ck_strcpy(char *src)
-{
-	char	dst1[100];
-	char	dst2[100];
-
-	bzero(dst1, 100);
-	bzero(dst2, 100);
-	strcpy(dst1, src);
-	ft_strcpy(dst2, src);
-	if (!strcmp(dst1, dst2))
-		printf("	[OK]\n");
-	else
-		printf("	[NOT OK AT ALL]\n");
-}
-
-void	ft_ck_strdup(char *src)
-{
-	char	*dst1;
-	char	*dst2;
-
-	dst1 = strdup(src);
-	dst2 = ft_strdup(src);
-	if (!strcmp(dst1, dst2))
-		printf("	[OK]\n");
-	else
-		printf("	[NOT OK AT ALL]\n");
-	//free(dst1);
-	//free(dst2);
-}
-
-void	ft_ck_write(char *src, int c)
-{
-	size_t	ret1, ret2;
-
-	ret1 = ft_write(STDOUT_FILENO, src, c);
-	printf("\n");
-	ret2 = write(STDOUT_FILENO, src, c);
-	printf("\n");
-	if (ret1 == ret2)
-		printf("	[OK]\n");
-	else
-		printf("	[NOT OK AT ALL]\n");
-}
-
-void	ft_testread()
-{
-	printf("ft_read:\n");
-	ft_ck_read("test.txt", 10, 1);
-	ft_ck_read("test.txt", 50, 1);
-	ft_ck_read("missingfile", 10, 1);
-	ft_ck_read("test.txt", 10, 2);
-	ft_ck_read("invalid_fd", 10, 3);
-	ft_ck_read("empty", 10, 4);
-	printf("\n");
-}
-
-void	ft_teststrlen()
-{
-	printf("ft_strlen:\n");
-	ft_ck_strlen("");
-	ft_ck_strlen("heart of gold");
-	ft_ck_strlen("01189998819991197253");
-	printf("\n");
-}
-
-void	ft_teststrcmp()
-{
-	printf("ft_strcmp:\n");
-	ft_ck_strcmp("","");
-	ft_ck_strcmp("stringcompare","stringcompare");
-	ft_ck_strcmp("stringcompare","");
-	ft_ck_strcmp("","stringcompare");
-	ft_ck_strcmp("123456","123456");
-	printf("\n");
-}
-
-void	ft_teststrcpy()
-{
-	printf("ft_strcpy:\n");
-	ft_ck_strcpy("");
-	ft_ck_strcpy("01189997253");
-	ft_ck_strcpy("adasblestaslbiustous");
-	printf("\n");
-}
-
-void	ft_teststrdup()
-{
-	printf("ft_strdup:\n");
-	ft_ck_strdup("");
-	ft_ck_strdup("teste");
-	ft_ck_strdup("123456789");
-	ft_ck_strdup("superbolinhovamotestarotamanho");
-	printf("\n");
-}
-
-void	ft_testwrite()
-{
-	printf("ft_write:\n");
-	ft_ck_write("		teste", 5);
-	ft_ck_write("		super bolinho", 10);
-	ft_ck_write("		super bolinho", 20);
-	ft_ck_write("", 10);
-	ft_ck_write("", 0);
-	printf("\n");
-}
-
-int     main(int argc, char *argv[])
-{
-	ft_testread();
-	ft_teststrlen();
-	ft_teststrcmp();
-	ft_teststrcpy();
-	ft_teststrdup();
-	ft_testwrite();
+	ft_test_strlen(s1, empty_s, long_s);
+	ft_test_strcmp(s1, s2, empty_s, long_s);
+	ft_test_strcpy(s1, empty_s, long_s);
+	ft_test_strdup(s1, empty_s, long_s);
+	ft_test_write(s2);
+	ft_test_read();
 	return (0);
 }
