@@ -31,8 +31,8 @@ void	ft_test_strcmp(char *s1, char *s2, char *empty_s, char *long_s)
 
 void	ft_test_strcpy(char *s1, char *empty_s, char *long_s)
 {
-	char d1[50];
-	char d2[50];
+	char d1[100];
+	char d2[100];
 
 	printf("**********FT_STRCPY*********\n\n");
 	strcpy(d1, s1); 
